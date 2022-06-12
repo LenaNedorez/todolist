@@ -2,9 +2,10 @@ package com.example.todolist.service;
 
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.exception.UserAlreadyExistException;
+import com.example.todolist.exception.UserNotFoundException;
+import com.example.todolist.model.User;
 import com.example.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,5 +19,13 @@ public class UserService {
             throw new UserAlreadyExistException("Пользователь с таким именем уже существует");
         }
         return userRepository.save(user);
+    }
+
+    public User getOne (Long id) throws UserNotFoundException {
+        UserEntity user = userRepository.findById(id).get();
+        if(user == null) {
+            throw new UserNotFoundException("Пользователь не найден");
+        }
+        return User.toModel(user);
     }
 }
