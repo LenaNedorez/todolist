@@ -28,4 +28,9 @@ public class UserService {
         }
         return User.toModel(user);
     }
+
+    public Long delete(Long id) {
+        userRepository.deleteById(id);
+        return id;
+    }
 }
